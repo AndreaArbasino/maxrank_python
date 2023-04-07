@@ -81,26 +81,27 @@ if __name__ == "__main__":
     cells.set_index('id', inplace=True)
     cells.to_csv("./cells.csv")
 
-    # Read the input data from a CSV file
-    cells = pd.read_csv('./cells.csv')
+    if data_df.shape[1] == 2:
+        # Read the input data from a CSV file
+        cells = pd.read_csv('./cells.csv')
 
-    # Set the index to the 'id' column
-    cells.set_index('id', inplace=True)
+        # Set the index to the 'id' column
+        cells.set_index('id', inplace=True)
 
-    # Evaluate the 'query_found' column
-    cells['query_found'] = cells['query_found'].apply(literal_eval)
+        # Evaluate the 'query_found' column
+        cells['query_found'] = cells['query_found'].apply(literal_eval)
 
-    # Explode the 'query_found' column
-    result = cells.explode('query_found').reset_index()
+        # Explode the 'query_found' column
+        result = cells.explode('query_found').reset_index()
 
-    # Split the 'query_found' column into two columns: 'intLeft' and 'intRight'
-    result[['intLeft', 'intRight']] = pd.DataFrame(result['query_found'].tolist(), index=result.index)
+        # Split the 'query_found' column into two columns: 'intLeft' and 'intRight'
+        result[['intLeft', 'intRight']] = pd.DataFrame(result['query_found'].tolist(), index=result.index)
 
-    # Drop the 'query_found' column
-    result = result.drop('query_found', axis=1)
+        # Drop the 'query_found' column
+        result = result.drop('query_found', axis=1)
 
-    # Write the result to a CSV file
-    result.to_csv('cellsout.csv', index=False)
+        # Write the result to a CSV file
+        result.to_csv('cellsout.csv', index=False)
 
     res = pd.DataFrame(res, columns=['id', 'maxrank'])
     res.set_index('id', inplace=True)
