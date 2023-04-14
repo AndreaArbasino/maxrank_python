@@ -106,4 +106,9 @@ if __name__ == "__main__":
     res = pd.DataFrame(res, columns=['id', 'maxrank'])
     res.set_index('id', inplace=True)
     res.to_csv("./maxrank.csv")
+
+    # create a file called "maxrank_stats.csv" with inside the minimum, maximum and average maxrank value
+    stats = pd.DataFrame([[res.maxrank.min(), res.maxrank.max(), res.maxrank.mean()]], columns=['min', 'max', 'avg'])
+    stats.to_csv("./maxrank_stats.csv", index=False)
+
     print(res)
